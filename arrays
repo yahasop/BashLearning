@@ -1,0 +1,13 @@
+#!/bin/bash
+
+ARRAY=("Hola" "Yamil" "Solis" "Piedra")
+
+COUNT=0
+
+for i in ${ARRAY[@]}; do
+	echo "${ARRAY[COUNT]}"
+	COUNT=`expr $COUNT + 1`
+done
+
+#echo ""
+#echo "${ARRAY[3]}"

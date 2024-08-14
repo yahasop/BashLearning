@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# This intends to show a basic use of the expr command to perform arithmetic operations
+
+# A simple sum
+expr 2 + 2
+
+# A simple division
+expr 12 / 2
+
+# A simple multiplication. it's neccesary to escape the * as it is a shell special character for wildcards
+expr 4 \* 2
+
+# The expr command follows operation priorities so this will firs resolve multiplication/divisions and then additions/substractions
+expr 2 + 2 \* 4
+
+# We need to encase operations in parenthesis and they also need to be scaped. 
+# An important note is that we need to leave an space between them and the operation to evaluate
+expr \( 2 + 2 \) \* 4

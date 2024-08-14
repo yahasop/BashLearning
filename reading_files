@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+read -p $'Enter a file to read:\n' FILE
+
+while read -r POKE; do
+	echo "Who is that Pokemon? Is... $POKE"
+done < "$FILE"

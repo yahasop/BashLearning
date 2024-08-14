@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# This intended to show basic example of passing arguments at command line when running a script
+
+ARG1=$1
+ARG=$2
+
+echo "First argument is: \"$1\" and second is: \"$2\"."
+
+# Arguments needs to be typed after the call of the script. For example:
+# passing_arguments_to_cmdline arg1 arg2
+
+# Output:
+# First argument is "arg1" and second is: "arg2".

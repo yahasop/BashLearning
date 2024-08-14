@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# This script is intended to explain and show examples of how command susbstitution works.
+
+###### USING ALIASES AND THEN COMMAND SUBSTITUTION ######
+
+# Aliases in scripts are local to the shell the script opens. When setting an alias is neccesary to edit the .bashrc file to work for that shell.
+# Shells open their own non interactive shells, so .bashrc configurations are not applied to subsequent shells.
+# We need to expand aliases to the parent shell from the non-interactive shell the script opens.
+# Without the shopt -s expand_aliases line, aliases will not be recognized and therefore the "command" they are replacing, wont be recognized.
+shopt -s expand_aliases 
+
+# We set aliases to work as if they were commands. The defined alias will do whatever we define in when callled.
+alias TODAY="date"
+alias HOST="hostname"
+
+# This is where command substitution is used. Stores the alias (acting as commands) within the backticks into variables.
+A=`TODAY`
+B=`HOST`
+
+echo "With an alias, date is $A"
+echo "With an alias, hostname is $B"
+
+
+####### USING COMMAND SUBSTITUTION #######
+
+# This is a direct command substitution, we set a command within the backticks and store whatever the result is into a variable.
+TODAYSDATE=`date`
+OURHOST=`hostname`
+
+echo ""
+echo "With command substitution, date is $TODAYSDATE"
+echo "With command substitution, hostname is $OURHOST"

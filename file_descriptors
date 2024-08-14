@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# This intends to explain a basic use of file descriptor and handlers
+# File descriptors assgn a file a way to read and write from
+# The handler will be the number, just as we use "2> file.txt" to redirect stderr to a file
+
+# Here using the read command to read input and save it to a variable called FILE
+read -p $'Enter a filename: \n>>> ' FILE
+
+# Here we define if we need the handler to read, write or both. In this case both
+exec 5<>$FILE 
+
+# The handler will provide input to the while loop. It reads from it. 
+while read -r POKE; do
+	echo "Who is that Pokemon? Is... $POKE"
+done <&5
+
+# The handler will make the echo statement is written on
+echo "File read on `date`" >&5 
+
+# To avoid the handlers keeps open and both uses space and conflicts with other handlers assigned to the same descriptor, we need to close it
+exec 5>&-
+

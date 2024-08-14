@@ -1,0 +1,337 @@
+
+
+########################### SCRIPT'S BEGINNING ##############################################
+#!/bin/bash
+
+# This intends to show a basic use of the expr command to perform arithmetic operations
+
+# A simple sum
+expr 2 + 2
+
+# A simple division
+expr 12 / 2
+
+# A simple multiplication. it's neccesary to escape the * as it is a shell special character for wildcards
+expr 4 \* 2
+
+# The expr command follows operation priorities so this will firs resolve multiplication/divisions and then additions/substractions
+expr 2 + 2 \* 4
+
+# We need to encase operations in parenthesis and they also need to be scaped. 
+# An important note is that we need to leave an space between them and the operation to evaluate
+expr \( 2 + 2 \) \* 4
+####################################### SCRIPT'S ENDING #####################################
+
+
+########################### SCRIPT'S BEGINNING ##############################################
+#!/bin/bash
+
+ARRAY=("Hola" "Yamil" "Solis" "Piedra")
+
+COUNT=0
+
+for i in ${ARRAY[@]}; do
+	echo "${ARRAY[COUNT]}"
+	COUNT=`expr $COUNT + 1`
+done
+
+#echo ""
+#echo "${ARRAY[3]}"
+####################################### SCRIPT'S ENDING #####################################
+
+
+########################### SCRIPT'S BEGINNING ##############################################
+#!/bin/bash
+
+# This script is intended to explain and show examples of how command susbstitution works.
+
+###### USING ALIASES AND THEN COMMAND SUBSTITUTION ######
+
+# Aliases in scripts are local to the shell the script opens. When setting an alias is neccesary to edit the .bashrc file to work for that shell.
+# Shells open their own non interactive shells, so .bashrc configurations are not applied to subsequent shells.
+# We need to expand aliases to the parent shell from the non-interactive shell the script opens.
+# Without the shopt -s expand_aliases line, aliases will not be recognized and therefore the "command" they are replacing, wont be recognized.
+shopt -s expand_aliases 
+
+# We set aliases to work as if they were commands. The defined alias will do whatever we define in when callled.
+alias TODAY="date"
+alias HOST="hostname"
+
+# This is where command substitution is used. Stores the alias (acting as commands) within the backticks into variables.
+A=`TODAY`
+B=`HOST`
+
+echo "With an alias, date is $A"
+echo "With an alias, hostname is $B"
+
+
+####### USING COMMAND SUBSTITUTION #######
+
+# This is a direct command substitution, we set a command within the backticks and store whatever the result is into a variable.
+TODAYSDATE=`date`
+OURHOST=`hostname`
+
+echo ""
+echo "With command substitution, date is $TODAYSDATE"
+echo "With command substitution, hostname is $OURHOST"
+####################################### SCRIPT'S ENDING #####################################
+
+
+########################### SCRIPT'S BEGINNING ##############################################
+#!/bin/bash
+
+# This script intends to show usage and examples of exit statuses
+
+# The set -e option breaks script execution in the moment there's an error.
+# This also means: whatever exit status that is not zero (successful) is considered an error
+# Comment it out to disable
+#set -e
+
+# This will give an exit status of 0 as the command will be successful
+echo "This is a test for exit status"
+echo $?
+
+# This will give an exit status of 1 as the command will not be succesful. In this particular case, is trying to remove a file that doesn't exist
+rm afile.txt
+echo $?
+
+# This will give an exit status of 127 as the command "lear" doesn't exist
+lear
+echo $?
+####################################### SCRIPT'S ENDING #####################################
+
+
+########################### SCRIPT'S BEGINNING ##############################################
+#!/bin/bash
+
+# This intended to show basic example of passing arguments at command line when running a script
+
+ARG1=$1
+ARG=$2
+
+echo "First argument is: \"$1\" and second is: \"$2\"."
+
+# Arguments needs to be typed after the call of the script. For example:
+# passing_arguments_to_cmdline arg1 arg2
+
+# Output:
+# First argument is "arg1" and second is: "arg2".
+####################################### SCRIPT'S ENDING #####################################
+
+
+########################### SCRIPT'S BEGINNING ##############################################
+#!/bin/bash
+
+echo "Hello Yamil"
+####################################### SCRIPT'S ENDING #####################################
+
+
+########################### SCRIPT'S BEGINNING ##############################################
+#!/bin/bash
+
+# This intends to show a basic example of an if statement
+
+# The if statement evaluates an expression within square brackets
+# Here the expression evaluates the existence of a file AND readability
+
+#read -p "Enter a filename you want to check its existence: `echo $'\n> '`" FILENAME
+read -rep $'Enter a filename you want to check its existence: \n> ' FILENAME
+
+if [ -f $FILENAME ] && [ -r $FILENAME ]; then
+		echo "File \"$FILENAME\" exists and is readable"
+elif [ -f $FILENAME ]; then
+		echo "File \"$FILENAME\" exists but is not readable"
+	else 
+		echo "File \"$FILENAME\" doesn't exists, therefore no readable"
+fi 
+####################################### SCRIPT'S ENDING #####################################
+
+
+########################### SCRIPT'S BEGINNING ##############################################
+#!/bin/bash
+
+# This intends to explain a basic use of file descriptor and handlers
+# File descriptors assgn a file a way to read and write from
+# The handler will be the number, just as we use "2> file.txt" to redirect stderr to a file
+
+# Here using the read command to read input and save it to a variable called FILE
+read -p $'Enter a filename: \n>>> ' FILE
+
+# Here we define if we need the handler to read, write or both. In this case both
+exec 5<>$FILE 
+
+# The handler will provide input to the while loop. It reads from it. 
+while read -r POKE; do
+	echo "Who is that Pokemon? Is... $POKE"
+done <&5
+
+# The handler will make the echo statement is written on
+echo "File read on `date`" >&5 
+
+# To avoid the handlers keeps open and both uses space and conflicts with other handlers assigned to the same descriptor, we need to close it
+exec 5>&-
+
+####################################### SCRIPT'S ENDING #####################################
+
+
+########################### SCRIPT'S BEGINNING ##############################################
+#!/bin/bash
+
+
+while [ "$CHOICE" != "Q" ] && [ "$CHOICE" != "q" ]; do
+	echo "It's dangerous out there, choose one:"
+	echo "================"
+	echo "Chikorita"
+	echo "Cyndaquil"
+	echo "Totodile"
+	echo "Quit (Q/q)"
+	echo ""
+	read CHOICE
+
+done
+####################################### SCRIPT'S ENDING #####################################
+
+
+########################### SCRIPT'S BEGINNING ##############################################
+#!/bin/bash
+
+read -p "What gender you are?: " GENDER
+
+# The main function 
+human () {
+
+# Local variables, only available within the function and its nested functions
+	LEGS=2
+	ARMS=2
+
+# The nested functions. They use variables defined above and have their own variables only available within them
+	male () {
+		BEARD=1
+		echo "You are a male with $ARMS arms and $LEGS legs. Also $BEARD beard"
+	}
+	
+	female () {
+		BEARD=0
+		echo "You are a female with $ARMS arms and $LEGS legs. Also $BEARD beards"
+	}
+
+}
+
+# Calling the functions with a if conditional. The parent function always needs to be called and their subsequent functions
+if [ "$GENDER" == "male" ] || [ "$GENDER" == "Male" ] || [ "$GENDER" == "M" ]; then
+	human
+	male
+elif [ "$GENDER" == "female" ] || [ "$GENDER" == "Female" ] || [ "$GENDER" == "F" ]; then 
+	human
+	female
+fi
+
+echo ""
+
+# Outer function
+outer_function() {
+
+    # Inner function
+    inner_function() {
+        num1=$1
+        num2=$2
+        echo $(( num1 + num2 ))
+    }
+
+    # Call the inner function and capture its return value
+    result=$(inner_function 3 4)
+    echo "Result from inner function: $result"
+}
+
+# Call the outer function
+outer_function
+
+####################################### SCRIPT'S ENDING #####################################
+
+
+########################### SCRIPT'S BEGINNING ##############################################
+#!/bin/bash
+
+
+read -p $'Make a choice:\n1. Bulbasaur\n2. Charmander\n3. Squirtle\nEnter the number: ' CHOICE
+
+case $CHOICE in
+	1)
+	  echo "You choose a grass-type Pokemon";;
+	2)
+	  echo "You choose a fire-type Pokemon";;
+	3)
+	  echo "You choose a water-type Pokemon";;
+	*)
+	  echo "It's dangerous out there, choose one";;
+esac
+####################################### SCRIPT'S ENDING #####################################
+
+
+########################### SCRIPT'S BEGINNING ##############################################
+#!/bin/bash
+
+
+read -p $'Enter a file to read:\n' FILE
+
+while read -r POKE; do
+	echo "Who is that Pokemon? Is... $POKE"
+done < "$FILE"
+####################################### SCRIPT'S ENDING #####################################
+
+
+########################### SCRIPT'S BEGINNING ##############################################
+#!/bin/bash
+
+
+while IFS="," read -r POKENAME TYPE; do
+	echo "Pokemon is $POKENAME and its type is $TYPE."
+done < pokemontypes
+####################################### SCRIPT'S ENDING #####################################
+
+
+########################### SCRIPT'S BEGINNING ##############################################
+#!/bin/bash
+
+my_func() {
+
+	echo "Function definition 1"
+
+}
+
+function my_func_two {
+
+	echo "Function definition 2"
+
+}
+
+my_func
+my_func_two
+####################################### SCRIPT'S ENDING #####################################
+
+
+########################### SCRIPT'S BEGINNING ##############################################
+#!/bin/bash
+
+# In this functiom we provide a parameter at runtime and another in the script itself.
+
+# This will be the parameter provided at runtime, it needs to be set after script name like this:
+# script_name parameter, in this case functions_with_params as name of the scrip and with a X name as parameter.
+# It uses a positional parameter of 1, meaning the first param provided is that will be stored.
+USERNAME=$1
+
+# The function definiton. It first uses USERNAME var, that is setted inmediately when the script runs. Then uses another positional paramater, again to 1.
+# The function will not run until its called.
+funcAgeAndDays () {
+
+	echo "Hello $USERNAME, you are $1 years old"
+	echo "That makes you more than `expr $1 \* 365` years old"
+}
+
+# A read statement that saves any input into USERAGE variable.
+read -p $'Enter your age: \n>>> ' USERAGE
+
+# The call of the function. In here we provide another param for the function as $1 positional parameter.
+# This is only and when the function will run.
+funcAgeAndDays $USERAGE
+####################################### SCRIPT'S ENDING #####################################

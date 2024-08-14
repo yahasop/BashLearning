@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+while IFS="," read -r POKENAME TYPE; do
+	echo "Pokemon is $POKENAME and its type is $TYPE."
+done < pokemontypes

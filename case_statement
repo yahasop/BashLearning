@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+read -p $'Make a choice:\n1. Bulbasaur\n2. Charmander\n3. Squirtle\nEnter the number: ' CHOICE
+
+case $CHOICE in
+	1)
+	  echo "You choose a grass-type Pokemon";;
+	2)
+	  echo "You choose a fire-type Pokemon";;
+	3)
+	  echo "You choose a water-type Pokemon";;
+	*)
+	  echo "It's dangerous out there, choose one";;
+esac

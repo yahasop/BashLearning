@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# This intends to show a basic example of an if statement
+
+# The if statement evaluates an expression within square brackets
+# Here the expression evaluates the existence of a file AND readability
+
+#read -p "Enter a filename you want to check its existence: `echo $'\n> '`" FILENAME
+read -rep $'Enter a filename you want to check its existence: \n> ' FILENAME
+
+if [ -f $FILENAME ] && [ -r $FILENAME ]; then
+		echo "File \"$FILENAME\" exists and is readable"
+elif [ -f $FILENAME ]; then
+		echo "File \"$FILENAME\" exists but is not readable"
+	else 
+		echo "File \"$FILENAME\" doesn't exists, therefore no readable"
+fi 

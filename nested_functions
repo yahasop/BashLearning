@@ -1,0 +1,53 @@
+#!/bin/bash
+
+read -p "What gender you are?: " GENDER
+
+# The main function 
+human () {
+
+# Local variables, only available within the function and its nested functions
+	LEGS=2
+	ARMS=2
+
+# The nested functions. They use variables defined above and have their own variables only available within them
+	male () {
+		BEARD=1
+		echo "You are a male with $ARMS arms and $LEGS legs. Also $BEARD beard"
+	}
+	
+	female () {
+		BEARD=0
+		echo "You are a female with $ARMS arms and $LEGS legs. Also $BEARD beards"
+	}
+
+}
+
+# Calling the functions with a if conditional. The parent function always needs to be called and their subsequent functions
+if [ "$GENDER" == "male" ] || [ "$GENDER" == "Male" ] || [ "$GENDER" == "M" ]; then
+	human
+	male
+elif [ "$GENDER" == "female" ] || [ "$GENDER" == "Female" ] || [ "$GENDER" == "F" ]; then 
+	human
+	female
+fi
+
+echo ""
+
+# Outer function
+outer_function() {
+
+    # Inner function
+    inner_function() {
+        num1=$1
+        num2=$2
+        echo $(( num1 + num2 ))
+    }
+
+    # Call the inner function and capture its return value
+    result=$(inner_function 3 4)
+    echo "Result from inner function: $result"
+}
+
+# Call the outer function
+outer_function
+

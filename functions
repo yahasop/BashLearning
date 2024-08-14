@@ -1,0 +1,16 @@
+#!/bin/bash
+
+my_func() {
+
+	echo "Function definition 1"
+
+}
+
+function my_func_two {
+
+	echo "Function definition 2"
+
+}
+
+my_func
+my_func_two

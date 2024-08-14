@@ -1,0 +1,30 @@
+#!/bin/bash
+
+YES=0
+NO=1
+PARAM1=$1
+PARAM2=$2
+PARAM3=$3
+
+funcCheckParams () {
+	if [ ! -z $PARAM3 ]; then
+		return $YES
+	else
+		echo "We didnt get three params"
+		return $NO
+	fi
+}
+
+funcCheckParams "1" "2" "3" 
+RETURN_VAL=$?
+
+if [ "$RETURN_VAL" -eq "$YES" ]; then
+	echo "We got three params and they are"
+	echo "$PARAM1"
+	echo "$PARAM2"
+	echo "$PARAM3"
+else
+	echo "Usage is: script.sh [param1] [param2] [param3]"
+	exit 1
+
+fi

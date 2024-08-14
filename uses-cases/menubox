@@ -1,0 +1,19 @@
+#!/bin/bash
+
+MENUBOX=${MENUBOX=dialog}
+TITLE="Default"
+
+funcDisplayMenubox () {
+	$MENUBOX --title "[ M A I N  M E N U ]" --menu "Use UP/DOWN arrows to move and select or the number of your choce and ENTER" 15 45 4 1 "Display Hello World" 2 "Display Goodbye World" 3 "Display Nothing" X "Exit" 2>choice.txt
+}
+
+
+funcDisplayMenubox
+
+case "`cat choice.txt`" in
+	1) echo "Hello World";;
+	2) echo "Goodbye World";;
+	3) echo "Nothing";;
+	X) echo "Exit";;
+esac
+

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+SCRIPTNAME="$(basename $0)"
+SHSCRIPTS=`find . -type f -executable | grep -v "$SCRIPTNAME"`
+
+for SCRIPT in $SHSCRIPTS; do
+	echo ""
+	echo ""
+	echo "########################### SCRIPT'S BEGINNING ##############################################"
+	cat $SCRIPT
+	echo "####################################### SCRIPT'S ENDING #####################################"
+done > scripts.txt

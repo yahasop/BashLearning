@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# This script intends to show usage and examples of exit statuses
+
+# The set -e option breaks script execution in the moment there's an error.
+# This also means: whatever exit status that is not zero (successful) is considered an error
+# Comment it out to disable
+#set -e
+
+# This will give an exit status of 0 as the command will be successful
+echo "This is a test for exit status"
+echo $?
+
+# This will give an exit status of 1 as the command will not be succesful. In this particular case, is trying to remove a file that doesn't exist
+rm afile.txt
+echo $?
+
+# This will give an exit status of 127 as the command "lear" doesn't exist
+lear
+echo $?

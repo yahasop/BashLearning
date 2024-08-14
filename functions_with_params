@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# In this functiom we provide a parameter at runtime and another in the script itself.
+
+# This will be the parameter provided at runtime, it needs to be set after script name like this:
+# script_name parameter, in this case functions_with_params as name of the scrip and with a X name as parameter.
+# It uses a positional parameter of 1, meaning the first param provided is that will be stored.
+USERNAME=$1
+
+# The function definiton. It first uses USERNAME var, that is setted inmediately when the script runs. Then uses another positional paramater, again to 1.
+# The function will not run until its called.
+funcAgeAndDays () {
+
+	echo "Hello $USERNAME, you are $1 years old"
+	echo "That makes you more than `expr $1 \* 365` years old"
+}
+
+# A read statement that saves any input into USERAGE variable.
+read -p $'Enter your age: \n>>> ' USERAGE
+
+# The call of the function. In here we provide another param for the function as $1 positional parameter.
+# This is only and when the function will run.
+funcAgeAndDays $USERAGE
